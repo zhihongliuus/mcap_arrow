@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package mcap_arrow;
+
+message TimestampedMessage {
+  int64 timestamp = 1;
+  bytes payload = 2;
+}
+
+message Point3D {
+  double x = 1;
+  double y = 2;
+  double z = 3;
+}
+
+message SensorReading {
+  int64 timestamp = 1;
+  string sensor_id = 2;
+  double value = 3;
+  string unit = 4;
+  Point3D location = 5;
+  map<string, string> metadata = 6;
+}
+
+message SensorReadingBatch {
+  int64 batch_timestamp = 1;
+  repeated SensorReading readings = 2;
+}
+
+message VehicleStatus {
+  int64 timestamp = 1;
+  string vehicle_id = 2;
+  double speed = 3;
+  double heading = 4;
+  Point3D position = 5;
+  repeated string active_systems = 6;
+  map<string, double> system_status = 7;
+} 

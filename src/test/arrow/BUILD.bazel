@@ -1,0 +1,57 @@
+load("@rules_cc//cc:defs.bzl", "cc_test")
+
+# Common test configuration 
+ARROW_TEST_COPTS = [
+    "-std=c++17",
+    "-DMCAP_COMPRESSION_NO_LZ4",
+    "-DMCAP_COMPRESSION_NO_ZSTD",
+]
+
+ARROW_TEST_DEPS = [
+    "//src/lib:mcap_arrow",
+    "//src/proto:sensor_data_cc_proto",
+    "@googletest//:gtest_main",
+]
+
+# Tests that depend on the full MCAP Arrow library
+[
+    cc_test(
+        name = target_name,
+        srcs = [target_name + ".cc"],
+        deps = ARROW_TEST_DEPS,
+        copts = ARROW_TEST_COPTS,
+    )
+    for target_name in [
+        "mcap_arrow_converter_test",
+        "mcap_arrow_writer_test",
+        "mcap_arrow_reader_test",
+        "mcap_arrow_index_test",
+        "mcap_arrow_ipc_test",
+    ]
+]
+
+# Basic IPC test with direct Arrow dependencies
+cc_test(
+    name = "mcap_arrow_ipc_basic_test",
+    srcs = ["mcap_arrow_ipc_basic_test.cc"],
+    deps = [
+        "@apache_arrow//:arrow",
+        "@apache_arrow//:arrow_ipc",
+        "@googletest//:gtest_main",
+    ],
+    copts = [
+        "-std=c++17",
+    ],
+)
+
+test_suite(
+    name = "all_arrow_tests",
+    tests = [
+        ":mcap_arrow_converter_test",
+        ":mcap_arrow_writer_test",
+        ":mcap_arrow_reader_test",
+        ":mcap_arrow_index_test",
+        ":mcap_arrow_ipc_test",
+        ":mcap_arrow_ipc_basic_test",
+    ],
+) 

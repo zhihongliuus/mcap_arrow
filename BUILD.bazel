@@ -1,0 +1,16 @@
+load("@rules_cc//cc:defs.bzl", "cc_binary")
+
+cc_binary(
+    name = "minimal_example",
+    srcs = ["minimal_example.cc"],
+    deps = ["//third_party/mcap:mcap_impl"],
+    copts = ["-std=c++17"],
+)
+
+# Add a test suite that includes all tests
+test_suite(
+    name = "all_tests",
+    tests = [
+        "//src/test:all_tests",
+    ],
+) 

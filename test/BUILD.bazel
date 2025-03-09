@@ -1,0 +1,31 @@
+cc_binary(
+    name = "mcap_simple_test",
+    srcs = ["mcap_simple_test.cc"],
+    deps = ["//third_party/mcap:mcap_impl"],
+    copts = [
+        "-std=c++17",
+        "-DMCAP_COMPRESSION_NO_LZ4",
+        "-DMCAP_COMPRESSION_NO_ZSTD",
+    ],
+)
+
+cc_binary(
+    name = "mcap_basic_test",
+    srcs = ["mcap_basic_test.cc"],
+    deps = ["//third_party/mcap:mcap_impl"],
+    copts = [
+        "-std=c++17",
+        "-DMCAP_COMPRESSION_NO_LZ4",
+        "-DMCAP_COMPRESSION_NO_ZSTD",
+    ],
+)
+
+cc_test(
+    name = "mcap_test",
+    srcs = ["mcap_test.cc"],
+    deps = [
+        "//third_party/mcap:mcap_impl",
+        "@com_google_googletest//:gtest_main",
+    ],
+    copts = ["-std=c++17"],
+) 

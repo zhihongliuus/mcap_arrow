@@ -1,0 +1,75 @@
+load("@rules_cc//cc:defs.bzl", "cc_test")
+
+# Common test configuration
+TEST_COPTS = [
+    "-std=c++17",
+]
+
+TEST_DEPS = [
+    "@googletest//:gtest_main",
+]
+
+cc_test(
+    name = "simple_test",
+    srcs = ["simple_test.cc"],
+    deps = TEST_DEPS,
+    copts = TEST_COPTS,
+)
+
+cc_test(
+    name = "mcap_arrow_minimal_test",
+    srcs = ["mcap_arrow_minimal_test.cc"],
+    deps = TEST_DEPS,
+    copts = TEST_COPTS,
+)
+
+cc_test(
+    name = "mcap_arrow_test",
+    srcs = ["mcap_arrow_test.cc"],
+    deps = TEST_DEPS,
+    copts = TEST_COPTS,
+)
+
+cc_test(
+    name = "basic_test",
+    srcs = ["basic_test.cc"],
+    deps = TEST_DEPS,
+    copts = TEST_COPTS,
+)
+
+cc_test(
+    name = "mcap_arrow_coverage_test",
+    srcs = ["mcap_arrow_coverage_test.cc"],
+    deps = TEST_DEPS,
+    copts = TEST_COPTS,
+)
+
+# Single test that covers the core IPC functionality
+cc_test(
+    name = "ipc_simple_test",
+    srcs = ["ipc_simple_test.cc"],
+    deps = TEST_DEPS,
+    copts = TEST_COPTS,
+)
+
+# Test suite for all non-arrow tests
+test_suite(
+    name = "core_tests",
+    tests = [
+        ":simple_test",
+        ":mcap_arrow_minimal_test",
+        ":mcap_arrow_test",
+        ":basic_test",
+        ":mcap_arrow_coverage_test",
+        ":ipc_simple_test",
+    ],
+)
+
+# Full test suite including Arrow tests
+test_suite(
+    name = "all_tests",
+    tests = [
+        ":core_tests",
+        "//src/test/arrow:all_arrow_tests",
+    ],
+) 

@@ -1,0 +1,27 @@
+###############################################################################
+# MCAP Arrow Bazel Module Configuration
+###############################################################################
+
+module(
+    name = "mcap_arrow",
+    version = "0.1.0",
+)
+
+# Core dependencies for the library and tests
+bazel_dep(name = "rules_cc", version = "0.0.9")
+bazel_dep(name = "protobuf", version = "21.7")
+bazel_dep(name = "abseil-cpp", version = "20211102.0")
+bazel_dep(name = "googletest", version = "1.11.0")
+bazel_dep(name = "rules_proto", version = "5.3.0-21.7")
+
+# Note on dependency management:
+# We've attempted to use Bzlmod for Apache Arrow and other local dependencies,
+# but encountered compatibility issues when mixing Bzlmod with WORKSPACE repositories.
+# For now, we're taking a hybrid approach:
+# - Standard dependencies with registry support are managed via Bzlmod (above)
+# - Local dependencies with custom build files (Apache Arrow, mcap, etc.) are
+#   managed via the WORKSPACE file
+#
+# When running builds/tests, use: --enable_workspace --check_direct_dependencies=off
+
+# For Apache Arrow, we'll use the repository rule in the WORKSPACE file 
